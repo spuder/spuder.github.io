@@ -34,12 +34,26 @@ Then run your rake tests
     $ rake spec
 
 You are running rake tests aren't you?  
-If you aren't yet see this blog. [puppetlabs nextgeneration of testing](http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing)
-You can find an example of how to write tests, look at the spec folder of this module [spuder/gitlab](https://github.com/spuder/puppet-gitlab) 
+If you aren't yet see this blog. 
+
+[puppetlabs nextgeneration of testing](http://puppetlabs.com/blog/the-next-generation-of-puppet-module-testing)
+
+There are some example tests you can copy, located in  `spec/classes/*.rb` [spuder/gitlab](https://github.com/spuder/puppet-gitlab) 
 
 # Custom Facts
 
-Using an old version of facter isn't the only way to get an error. Another common occurrence is if using a custom fact. 
+In the above example, we got an empty variable by using a fact only available on newer versions of facter. Another example when empty variables can bite you in the butt is when using custom facts. 
+
+Here I have a custom fact which returns `$::operatingsystem` in lower case. (I've called the fact `$::operatingsystem_lowercase` )
+
+    $ cat ./lib/facter/operatingsystem_lowercase.rb
+    Facter.add("operatingsystem_lowercase") do
+      setcode do
+            Facter.value('operatingsystem').downcase
+      end
+    end
+
+If I run rake tests, and check for strict variables, it throws an error about an undefined variable.
 
       13) gitlab when $puppet_manage_packages is false 
      Failure/Error: it { should_not contain_class('gitlab::packages') }
@@ -47,16 +61,20 @@ Using an old version of facter isn't the only way to get an error. Another commo
        Undefined variable "::operatingsystem_lowercase"; Undefined variable "operatingsystem_lowercase" at /vagrant/spec/fixtures/modules/gitlab/manifests/install.pp:114 on node gitlab-test
      # ./spec/classes/gitlab_spec.rb:227
 
+You will likely always get errors when using custom facts, even if you provide the custom fact as part of the rspec test. 
+
+
 # Solution
 
-If you have errors, you can fix them by wrapping the fact lookup with the puppetlabs/stdlib function. (Make sure to add the dependency to your metadata.json file.)
-https://forge.puppetlabs.com/puppetlabs/stdlib/1.0.0
+If you have errors, you can fix them by wrapping the fact lookup with the function `getvar()`. This function is only available if you have the [puppetlabs/puppetlabs_stdlib module](https://forge.puppetlabs.com/puppetlabs/stdlib) installed.  (If you add it, make sure to add the dependency to your metadata.json file.)
+
+
 
 Example, 
 
      getvar( $::operatingsystemmajrelease )
      
-*Make sure you aren't doing text expansion on the fact, or you will still get the error*      
+*Make sure you aren't doing text expansion on the fact, or you will still get errors durring your rake spec test*      
 
     #Bad, this won't work
     getvar( "${::operatingsystemmajrelease}")
@@ -64,9 +82,15 @@ Example,
 
 # getvar()
 
-Unfortunately as of the time of this writing, the getvar function is awaiting [this pull request](https://github.com/puppetlabs/puppetlabs-stdlib/pull/303)
+<del>Unfortunately as of the time of this writing, the getvar function is awaiting [this pull request](https://github.com/puppetlabs/puppetlabs-stdlib/pull/303)</del>
 
-Until that merge request is accepted, you will need to manually edit your `.fixtures.yaml` file to point to a fork with the fix.
+<del>Until that merge request is accepted, you will need to manually edit your `.fixtures.yaml` file to point to a fork with the fix.</del>
+
+There *was* a bug in `puppetlabs_stdlib` which would cause strict variable checking to fail in some circomstances. The bug has been fixed and is currently pending release. ( Hopefully it will be present in stdlib `1.0.1` )
+
+If you have an older version of stdlib that doesn't have the fix yet, you will need to patch your module, or temporarially modify your `.fixtures.yaml` file to point to a fork that has the fix. 
+
+For Example, my `.fixtures.yaml` 
 
 Before:
 
@@ -93,7 +117,9 @@ Then to run your tests, run the following
 
 # Travis
 
-Lastly, if you have a .travis file, add tests for strict variables by exporting the environment variable.
+Lastly, if you have a .travis file, add tests for strict variables by exporting the environment variable. This feature is only available on versions of puppet `~3.6.x`
+
+Exmaple .travis.yaml file
 
     env:
       - PUPPET_VERSION=3.1.0 FACTER_VERSION=1.7.6
