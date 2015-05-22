@@ -28,7 +28,7 @@ Get-VM -ComputerName $HVCOMPUTERNAME -VMName $HVNAME | Get-VMProcessor | Set-VMP
 
 Set-VMNetworkAdapterVlan -ComputerName $HVCOMPUTERNAME -VMName $HVNAME -Access -VlanId $HVVLAN
 
-Start-VM -ComputerName $HVCOMPUTERNAME -VMName $HVNAME
+Start-VM -ComputerName $HVCOMPUTERNAME -VMName $HVNAME  
 ```
 
 I'm using the awesome slack instant messaging application. It has an awesome API that lets you send messags through REST. 
@@ -41,11 +41,12 @@ Steps to integrate:
 
 
 Linux
+
 ```bash
 curl -s -X POST --data "payload={\"channel\":\"@somone\",\"username\":\"foobar\",\"text\":\"Your VM is ready @someone\"}" https://hooks.slack.com/services/XXXXXXXXXXXX/xxxxxxx
 ```
 
-Powershell   
+Powershell
  
 ```bash
 $Slackjson = @{}
