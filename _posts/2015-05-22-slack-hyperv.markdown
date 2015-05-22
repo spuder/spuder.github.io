@@ -2,14 +2,15 @@
 layout: post
 title:  "Slack notifications with hyperv"
 date:   2015-05-22 15:00:00
-categories: slack, hyperv
+categories: slack, hyperv  
+
 ---
 
 # HyperV
 
 I frequently start VM's on a hyperV host using the following powershell
 
-```
+```bash
 $HVNAME="vm01"
 $HVCPUS=2
 $HVMEMORY=2GB
@@ -53,7 +54,6 @@ $Slackjson.username = 'foobar'
 $Slackjson.text = "@somone Your VM $HVNAME is ready on $HVCOMPUTERNAME"
 $Slackjson = $Slackjson | ConvertTo-Json
 Invoke-RestMethod -Method POST -Uri https://hooks.slack.com/services/XXXXXXXXXXXX/xxxxxx -Body $Slackjson
-
 ```
 
 Notice that I'm not sending the data to a channel, but instead am sending a direct message to myself. I found [this trick here:](https://groups.google.com/forum/#!topic/slack-api/091x-gs1iFI) 
