@@ -294,7 +294,9 @@ Warning: Couldn't read data from file "foobar", this makes an empty
 Warning: POST.
 ```
 
-https://www.elastic.co/guide/en/elasticsearch/reference/1.3/indices-templates.html
+Additional Resources
+
+[indices-templates](https://www.elastic.co/guide/en/elasticsearch/reference/1.3/indices-templates.html)
 
 
-https://discuss.elastic.co/t/how-do-you-change-the-default-number-of-shards/1508
+[changing default number of shards](https://discuss.elastic.co/t/how-do-you-change-the-default-number-of-shards/1508)
