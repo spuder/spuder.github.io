@@ -36,8 +36,8 @@ Notice how the template leverages a wildcard to apply to all logstash indexes. `
 
 
 My config will likely look differnt than yours since it leverages ['doc_values'](https://www.elastic.co/guide/en/elasticsearch/guide/current/doc-values.html#_enabling_doc_values) according to [this blog](http://svops.com/blog/elasticsearch-mappings-and-templates/)
-```json
 
+```
   "logstash" : {
     "order" : 0,
     "template" : "logstash-*",
@@ -141,7 +141,7 @@ My config will likely look differnt than yours since it leverages ['doc_values']
 
 To change the default shard count, we will need to modify the settings field in the template. 
 
-```json
+```
 "settings" : {
         "number_of_shards" : 2
     },
@@ -159,7 +159,7 @@ Backup the file, then edit the 'settings' section of your file to reflect the nu
 
 You will then need to remove the following fields 
 
-```json
+```
   "logstash" : {
     "order" : 0,
    ...
