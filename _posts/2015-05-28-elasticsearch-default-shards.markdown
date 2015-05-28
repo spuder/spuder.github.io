@@ -19,7 +19,7 @@ Suppose you are splitting up your data into a lot of indexes. And you are keepin
 
 At 10 shards per day (5 shards x 2 copies), thats 300 shards. Considering that each shard is its own lucene index, this has the potential to be a lot of overhead. 
 
-![](https://www.dropbox.com/s/461zoocayjsixyc/Screenshot%202015-05-28%2011.48.18.png?dl=0
+![](http://cl.ly/image/3L1G1L3u1g1W/pCwA6HJQrR4gt0I0gbcGMLXI7Ap2w3HUlX71RHTgwWU.png
 )
 
 # Templates
