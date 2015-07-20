@@ -71,4 +71,10 @@ Then you have two commands that will ensure you are running against the correct 
 
 Ensure that there is nothing in the default ~/.chef/knife.rb
 
-Have a better way to handle this problem? Please let me know. 
+Have a better way to handle this problem? Please let me know.
+
+**Update**  
+
+The one downside to this apporach is that `berks` doesn't have an easy way to switch between config files.
+
+Perhaps a better alternative is to use this? [https://gist.github.com/kevinkarwaski/1860681](https://gist.github.com/kevinkarwaski/1860681)
