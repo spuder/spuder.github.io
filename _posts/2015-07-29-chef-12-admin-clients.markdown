@@ -71,7 +71,7 @@ knife acl add group admin-clients containers roles create,read,update
 knife acl bulk add group admin-clients roles '.*' create,read,update --yes
 ```
 
-This will allow any client in the admin-client group 
+This will allow any client in the admin-client group to read and upload new environments / roles. 
 You could also add the ability to update databags, cookbooks ect.. Note that cookbooks are special and need 3 commands, instead of the normal 2. 
 
 ```bash
@@ -87,6 +87,10 @@ You should have a new group in the administration pane, with a new client in it.
 
 
 Now just add that client key to your node, and it will be able to upload data for you. 
+
+In another blog post, I'll cover the details of setting up a web hook to push cookbooks every time you commit to a master branch. 
+
+![](https://www.dropbox.com/s/xyffcqzyv3ix91w/Screenshot%202015-07-30%2010.54.28.png?dl=1)
 
 
 Have a better way to do this? Find something wrong? Let me know. 
