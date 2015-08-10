@@ -14,8 +14,8 @@ Windows machine with a custom DLL that is managed by a cookbook. The dll is need
 
 What do you do if you need to stop the service *before* you replace the dll. While chef cookbooks run in order, there is no way to determine that a resource is *about* to be updated. You can use null resources, and send a notify to stop a service, but you can't know that the service needs to be restarted until after the file is replaced.
 
-Option A: Ask the developer who made the dll to make an MSI package that handles the services (not likely to happen).
-Option B: Use the food taster design pattern. (I just made that term up)
+Option A: Ask the developer who made the dll to make an MSI package that handles the services (not likely to happen).  
+Option B: Use the food taster design pattern. (I just made that term up)  
 
 Hundreds of years ago, kings and leaders would have prisoners taste their food before they ate so they could determine if the food was poisoned. We will use the same principle to determine if a file is about to be changed.
 
@@ -66,6 +66,4 @@ c:\windows\foo.dll
 
 If the foo-chef.dll is updated, then chef will mark the resource as being updated and will enter the conditional that replaces the real file.
 
-To learn more about updated_by_last_action? see this blog
-
-# http://www.frankmitchell.org/2013/02/chef-events/
+To learn more about updated_by_last_action? [see this blog](http://www.frankmitchell.org/2013/02/chef-events/)
