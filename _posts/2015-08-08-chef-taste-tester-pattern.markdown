@@ -2,7 +2,7 @@
 layout: post
 title:  "Chef notify :before resource"
 date:   2015-08-10 13:30:00
-categories: chef, design-pattern  
+categories: chef design-pattern  
 
 ---
 
@@ -23,31 +23,24 @@ Example
 
 ```ruby
 powershell_script 'stopService' do
+  guard_interpreter :powershell_script
   code <<-EOH
     Stop-Service 'foo'
   EOH
+  only_if "(Get-Service -Name foo)"
+  action :run
+end
+
+cookbook_file 'c:\\windows\\foo.dll' do
+  source 'foo.dll'
   action :nothing
 end
 
-tasteTesterIsDead = file 'c:\windows\foo-chef.dll' do
+cookbook_file 'c:\\windows\\foo-chef.dll' do
   source 'foo.dll'
   action :create
-end
-
-if tasteTesterIsDead.updated_by_last_action?
-  powershell_script 'stopService' do
-    guard_interpreter :powershell_script
-    code <<-EOH
-      Stop-Service 'foo'
-    EOH
-    only_if "(Get-Service -Name foo)"
-    action :run
-  end
-
-  file 'c:\windows\foo.dll' do
-    source 'foo.dll'
-    action :create
-  end
+  notifies :run, "powershell_script[stopService]", :immediately
+  notifies :create, "cookbook_file[c:\\windows\\foo.dll]", :immediately
 end
 
 powershell_script 'startService' do
@@ -64,6 +57,7 @@ Here we have 2 identical files
 c:\windows\foo-chef.dll
 c:\windows\foo.dll
 
-If the foo-chef.dll is updated, then chef will mark the resource as being updated and will enter the conditional that replaces the real file.
+If the foo-chef.dll is updated, then chef stop the service and replace the real dll
 
-To learn more about updated_by_last_action? [see this blog](http://www.frankmitchell.org/2013/02/chef-events/)
+Additional Resources  
+[updated_by_last_action?](http://www.frankmitchell.org/2013/02/chef-events/)
