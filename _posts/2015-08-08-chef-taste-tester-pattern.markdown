@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Chef notify :before resource"
-date:   2015-05-22 15:00:00
+date:   2015-08-10 13:30:00
 categories: chef, design-pattern  
 
 ---
