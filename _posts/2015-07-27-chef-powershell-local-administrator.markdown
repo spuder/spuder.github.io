@@ -7,13 +7,13 @@ categories: chef
 
 The world of Automation on Windows, sometimes requires that you run a script as a local administrator account.
 
-In powershell/batch the command to add and remove a domain account to local administrators is: 
+In powershell/batch the command to add and remove a domain account to local administrators is:
 
 
     net localgroup administrators example.com\someuser /add
-    
-    
-To automate this with chef, do this: 
+
+
+To automate this with chef, do this:
 
 ```ruby
   batch 'promote user' do
@@ -38,19 +38,19 @@ batch 'demote user' do
 end
 ```
 
-Note that you need to ensure proper idempotency by using an `only_if` statement. In the demote resource, I'm using a `powershell_script` as a [guard interpreter](https://docs.chef.io/resource_common.html#guard-interpreters), but running the actual command as batch. 
+Note that you need to ensure proper idempotency by using an `only_if` statement. In the demote resource, I'm using a `powershell_script` as a [guard interpreter](https://docs.chef.io/resource_common.html#guard-interpreters), but running the actual command as batch.
 
 
 ##Additional Windows Automation
 
-In windows, if you need to run a command as another user, you have a couple of options. 
+In windows, if you need to run a command as another user, you have a couple of options.
 
 Use `Invoke-Command`
 
 The problem with Invoke-Command is that it is intended to be executed on a remote host. While you can pass in `.` or `<localhostname>` as a parameter, that only works if you user has remote access enabled.
 
 
-The most commonly suggested workaround from the community, is to run the script as a scheduled task. 
+The most commonly suggested workaround from the community, is to run the script as a scheduled task.
 
 Lucklily, the windows cookbook has a scheduled task resource called `windows_task`
 
@@ -73,9 +73,10 @@ windows_task 'regall' do
   password "#{user_password}"
   command  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -noexit -executionpolicy Bypass -File 'c:\\start_regall.ps1'"
   action [:create,:run,:delete]
+  run_level :highest
   force true
 end
 
 ```
 
-This code could likely be cleaned up a bit, but is pretty bulletproof in my tests. 
+This code could likely be cleaned up a bit, but is pretty bulletproof in my tests.
