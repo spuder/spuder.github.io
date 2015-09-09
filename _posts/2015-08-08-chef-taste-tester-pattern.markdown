@@ -61,3 +61,4 @@ If the foo-chef.dll is updated, then chef stop the service and replace the real 
 
 Additional Resources  
 [updated_by_last_action?](http://www.frankmitchell.org/2013/02/chef-events/)
+[compile time vs run time](http://stackoverflow.com/questions/25980820/please-explain-compile-time-vs-run-time-in-chef-recipes/26000270#26000270)
