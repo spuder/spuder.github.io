@@ -71,7 +71,7 @@ remote_file 'C:\\someAwesomePackage.msi' do
 end
 ```
 
-Avoid the temptation to unmount the network share after you have copied your files. In my testing, chef could unmount before the file is fully copied. The network share will automatically disappear when the chef run ends, and wont be available to other users, nor be visible in 'My Computer'
+Avoid the temptation to unmount the network share after you have copied your files. The network share will automatically disappear when the chef run ends. Additionally you don't need to worry about the mapped network drive being available to other users, nor be visible in 'My Computer'
 
 Additional Information: [mount](https://docs.chef.io/resource_mount.html)
 
