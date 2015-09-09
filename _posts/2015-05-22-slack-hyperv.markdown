@@ -2,7 +2,7 @@
 layout: post
 title:  "Slack notifications with hyperv"
 date:   2015-05-22 15:00:00
-categories: slack, hyperv  
+categories: slack hyperv  
 
 ---
 
@@ -25,7 +25,7 @@ I frequently start VM's on a hyperV host using the following powershell
     Start-VM -ComputerName $HVCOMPUTERNAME -VMName $HVNAME  
 
 
-I'm using the awesome slack instant messaging application. It has an awesome API that lets you send messags through REST. 
+I'm using the awesome slack instant messaging application. It has an awesome API that lets you send messags through REST.
 
 Steps to integrate:
 
@@ -41,7 +41,7 @@ curl -s -X POST --data "payload={\"channel\":\"@somone\",\"username\":\"foobar\"
 ```
 
 Powershell
- 
+
     $Slackjson = @{}
     $Slackjson.channel = '@someone'
     $Slackjson.username = 'foobar'
@@ -50,6 +50,6 @@ Powershell
     Invoke-RestMethod -Method POST -Uri https://hooks.slack.com/services/XXXXXXXXXXXX/xxxxxx -Body $Slackjson
 
 
-Notice that I'm not sending the data to a channel, but instead am sending a direct message to myself. I found [this trick here:](https://groups.google.com/forum/#!topic/slack-api/091x-gs1iFI) 
+Notice that I'm not sending the data to a channel, but instead am sending a direct message to myself. I found [this trick here:](https://groups.google.com/forum/#!topic/slack-api/091x-gs1iFI)
 
-Now whenever I start a VM, I get a notification when it is booted up. This could be futher extended to fetch the IP Address or any additional information that you want. 
+Now whenever I start a VM, I get a notification when it is booted up. This could be futher extended to fetch the IP Address or any additional information that you want.
