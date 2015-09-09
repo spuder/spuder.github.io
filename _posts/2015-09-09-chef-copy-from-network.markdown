@@ -48,17 +48,17 @@ end
 
 ## Solutions
 
-Clever chefers might think of two solutions: 
+Clever chefers might think of two solutions:
 
 - Add credentials to [remote_file](https://docs.chef.io/resource_remote_file.html) => Unfortunately, remote_file doesn't have the option for credentials  
 - [deploy](https://docs.chef.io/resource_deploy.html)  => While deploy does accept credentials, it only works with git repos, not UNC paths.
 
 
-Luckliy chef has a native way to mount network shares that *does* accept network credentials. 
+Luckliy chef has a native way to mount network shares that *does* accept network credentials.
 
 ```ruby
 mount 'T:' do
-  device '\\\\nas01.example.com
+  device '\\\\nas01.example.com'
   domain 'example.com'
   username 'foo'
   password 'correct-horse-battery-staple'
