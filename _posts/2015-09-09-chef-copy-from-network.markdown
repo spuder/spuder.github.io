@@ -6,6 +6,38 @@ categories: chef windows
 
 ---
 
+#Update
+I discovered a bug in the `mount` resouce which [has been reported here:](https://github.com/chef/chef/issues/3904)
+
+Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead: 
+
+```
+  batch "download_someAwesomePackage" do
+    code <<-EOH
+    SET username=#{node['domain']}\\#{someuser}
+    SET password=#{somepassword}
+    net use "\\nas01.example.com\\msi" %password% /user:%username%
+    :copy
+    copy "\\nas01.example.com\\msi\\someAwesomePackage.msi" "c:\\someAwesomePackage.msi
+    IF ERRORLEVEL 0 goto disconnect
+    goto end
+    :disconnect
+    net use "\\nas01.example.com\\msi" /delete
+    goto end
+    :end
+    EOH
+    action :run
+    not_if do File.exists?("c:\\someAwesomePackage.msi") end
+  end
+
+  windows_package 'someAwesomePackage' do
+    source 'c:\\someAwesomePackage.msi'
+  end
+  
+```
+
+----
+
 One of the beauties of chef is the ease of deploying software from a package or git repo.
 
 If you are in a windows world, or have a samba network share that requires authentication, you might notice something wierd.
