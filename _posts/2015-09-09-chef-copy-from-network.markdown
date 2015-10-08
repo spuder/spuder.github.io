@@ -7,9 +7,9 @@ categories: chef windows
 ---
 
 #Update
-I discovered a bug in the `mount` resouce which [has been reported here:](https://github.com/chef/chef/issues/3904)
+I discovered a bug in the `mount` resource which [has been reported here:](https://github.com/chef/chef/issues/3904)
 
-Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead: 
+Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead:
 
 ```
   batch "download_someAwesomePackage" do
@@ -33,7 +33,7 @@ Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead
   windows_package 'someAwesomePackage' do
     source 'c:\\someAwesomePackage.msi'
   end
-  
+
 ```
 
 ----
@@ -124,7 +124,7 @@ Thanks to stevenmurawski in the IRC channel for the suggestion
 
   Make sure you use `file:///T:/foo` and not `file:///T:\\foo`
 
---- 
+---
 **Problem:**
 
   Network Share won't unmount and powershell gives error "Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed."
