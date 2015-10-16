@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "CHEF slack notifications"
-date:   2015-08-16 10:55:00
+title:  "CHEF send Slack notifications"
+date:   2015-10-16 10:55:00
 categories: chef slack  
 
 ---
