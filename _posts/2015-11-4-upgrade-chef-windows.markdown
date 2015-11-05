@@ -49,11 +49,11 @@ This gets tricky because of the [double-hop problem](http://blogs.msdn.com/b/kno
 
 - Write a cookbook to deploy the msi to every node
 
-This is its own pandora's box, because unexpected things will happen if you try and run the chef msi from chef. Also, you don't want to try and deploy the msi every time chef runs. You proabably only want to run it once. 
+This is its own pandora's box, because unexpected things will happen if you try and run the chef msi from chef. Also, you don't want to try and deploy the msi every time chef runs. You probably only want to run it once. 
 
 - Group policy, system center
 
-No, just no. Besides, you proabably don't want to update all nodes at once. 
+No, just no. Besides, you probably don't want to update all nodes at once. 
 
 
 ----
@@ -77,9 +77,13 @@ To use PDQ. Simply define a "package", making sure to add the appropriate "ADDLO
 ![](http://cl.ly/image/3O0B2W1W2V2P/Screenshot%202015-11-04%2008.12.42.png)
 
 
-Then create a target list that includes the nodes you want to update. Unfortunatly you need to add these nodes by hand, or query from active directory. Again, you can find these nodes like so:
+Then create a target list that includes the nodes you want to update. Unfortunately you need to add these nodes by hand, or query from active directory. Again, you can find these nodes like so:
 
     knife search "role:web-default"  -a chef_packages.chef.version
+    
+You could alternativly save to a .txt or .csv file and import that into PDQ
+
+    knife search node 'version:12.4.*' | grep 'Node Name' | awk '{print $3}' > /tmp/nodes.txt
 
 ![](http://cl.ly/image/3S3S3k0r0F2P/Screenshot%202015-11-04%2008.51.24.png)
 
