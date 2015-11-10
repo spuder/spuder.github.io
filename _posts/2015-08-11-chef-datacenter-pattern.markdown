@@ -146,7 +146,6 @@ Mail server role
     "foo" : 33
   },
   "override_attributes": {
-    }
   },
   "run_list": [
     "recipe[web-cookbook]",
@@ -165,7 +164,6 @@ Datacenter specific role
     "loadbalancer": "5.5.5.5"
   },
   "override_attributes": {
-    }
   }
 }
 ```
@@ -187,7 +185,7 @@ Upload servers in every datacenter need their own specific settings, put those s
   "run_list": [
     "recipe[web-cookbook]",
     "recipe[web-upload]"
-  ]  
+  ]
 }
 ```
 
@@ -200,30 +198,29 @@ Upload servers in every datacenter need their own specific settings, put those s
   },
   "override_attributes": {
     "loadbalancer": "20.20.20.20"
-    }
   },
   "run_list": [
     "recipe[web-cookbook]",
     "recipe[web-upload]"
-  ]  
+  ]
 }
 ```
 
 While designing our roles, we [brainstormed every possible pattern in a github gist:](https://gist.github.com/spuder/00aa024e61392d16f4cc). The final design is a hybrid that uses pattern `B` as much as possible, and pattern `A` for the datacenter specific roles.
 
-This pattern works very well for us, understandibly it won't work perfectly for everyone. Chef is working on the policy file which will be interesting how it will replace some of our design once it is finialized. 
+This pattern works very well for us, understandibly it won't work perfectly for everyone. Chef is working on the policy file which will be interesting how it will replace some of our design once it is finialized.
 
 
 ## Questions
 
-### - Roles don't have versions, won't a change to a role affect all environments at once? 
+### - Roles don't have versions, won't a change to a role affect all environments at once?
 
-That is exactly why chef is creating the policy file. In our infrastructure, runlists don't change very often. And even if they do, they are in version control so it can be reverted back. We put as many settings as possible at the lowest hiarchy level (environment). Every other setting next goes to the datacenter specific role. This minimizes the number of servers that are affected by a single change. 
+That is exactly why chef is creating the policy file. In our infrastructure, runlists don't change very often. And even if they do, they are in version control so it can be reverted back. We put as many settings as possible at the lowest hiarchy level (environment). Every other setting next goes to the datacenter specific role. This minimizes the number of servers that are affected by a single change.
 
 ---
-### - What happens if you have the same setting in 2 roles? 
+### - What happens if you have the same setting in 2 roles?
 
-The last one will win. Thats why the override roles have all settings in the `override_attributes` section. 
+The last one will win. Thats why the override roles have all settings in the `override_attributes` section.
 
 ---
 ### - Don't you have to make a lot of changes if you want to change a setting everywhere?
