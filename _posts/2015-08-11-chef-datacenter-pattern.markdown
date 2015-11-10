@@ -126,7 +126,6 @@ Web server role
     "foo": 42
   },
   "override_attributes": {
-    }
   },
   "run_list": [
     "recipe[web-cookbook]",
@@ -180,7 +179,6 @@ Upload servers in every datacenter need their own specific settings, put those s
   },
   "override_attributes": {
     "loadbalancer": "10.10.10.10"
-    }
   },
   "run_list": [
     "recipe[web-cookbook]",
