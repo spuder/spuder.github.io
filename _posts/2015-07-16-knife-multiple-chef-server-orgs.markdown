@@ -104,11 +104,11 @@ CHEF_ENV=foo-lab knife node edit
 CHEF_ENV=bar-prod knife cookbook list
 ```
 
-This makes it easy to automate with jenkins / gitlabci by creating automated upload of cookbooks to the correct chef servers, simply by changing an environment variable. 
+This makes it easy to automate with jenkins / gitlabci by creating automated upload of cookbooks to the correct chef servers, simply by changing an environment variable.
 
-### Caution
+### Caveats
 
-The only downside to this is if you use `test kitchen` and `berkshelf`, they for some reason need to query the knife.rb . You'll need to get in the habbit of setting this environment variable with them too. 
+The only downside to this is if you use `test kitchen` and `berkshelf`, they for some reason need to query the knife.rb . You'll need to get in the habit of setting this environment variable with them too.
 
 
 ```bash
@@ -118,3 +118,7 @@ CHEF_ENV=foo-lab berks upload
 CHEF_ENV=foo-lab kitchen setup
 CHEF_ENV=foo-lab kitchen converge
 ```
+
+### Alternatives
+
+If you don't like this solution, there is another tool that looks promising called [chefvm](https://github.com/trobrock/chefvm) (like RVM)
