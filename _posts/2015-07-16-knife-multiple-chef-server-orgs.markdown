@@ -42,8 +42,8 @@ cache_options( :path => "#{current_dir}/#{CHEF_ENV}/checksums" )
 Then create as many folders as you want
 
 ```bash
-sowens-MBP:~ sowen$ tree ~/.chef
-/Users/sowen/.chef
+$ tree ~/.chef
+/Users/spuder/.chef
 ├── azure-prod
 │   └── knife.rb
 ├── foo-lab
@@ -99,12 +99,11 @@ To switch between environments, simply set the environment variable `CHEF_ENV` w
 
 ```bash
 CHEF_ENV=foo-lab knife node list
-CHEF_ENV=foo-lab knife node edit
-
+CHEF_ENV=foo-prod knife node edit
 CHEF_ENV=bar-prod knife cookbook list
 ```
 
-This makes it easy to automate with jenkins / gitlabci by creating automated upload of cookbooks to the correct chef servers, simply by changing an environment variable.
+This makes it easy to automate with jenkins / gitlab-ci by creating automated upload of cookbooks to the correct chef servers, simply by changing an environment variable.
 
 ### Caveats
 
@@ -115,8 +114,8 @@ The only downside to this is if you use `test kitchen` and `berkshelf`, they for
 CHEF_ENV=foo-lab berks install
 CHEF_ENV=foo-lab berks upload
 
-CHEF_ENV=foo-lab kitchen setup
-CHEF_ENV=foo-lab kitchen converge
+CHEF_ENV=bar-prod kitchen setup
+CHEF_ENV=bar-prod kitchen converge
 ```
 
 ### Alternatives
