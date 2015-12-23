@@ -52,7 +52,7 @@ powershell_script 'Maintenance Configurator' do
 end
 ```
 
-You must use the `windows_task` resource in the windows cookbook to create a scheduled task, that runs as 'SYSTEM' that calls powershell to call pxexe to remotely login to localhost to execute schtasks.exe to disable the scheduled task. 
+You must use the `windows_task` resource in the [windows cookbook](https://github.com/chef-cookbooks/windows#windows_task) to create a scheduled task, that runs as 'SYSTEM' that executes powershell to call psexe.exe to remotely telnet to localhost to execute schtasks.exe to disable the scheduled task. 
 
 Whew, that was a lot of work. Microsoft really doesn't want you disabling this. 
 
