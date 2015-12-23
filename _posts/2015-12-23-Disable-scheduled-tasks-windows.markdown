@@ -49,7 +49,14 @@ You can't disable the task with schedtasks.exe either
     #DOES NOT WORK
     schtasks /change /tn "\Microsoft\Windows\TaskScheduler\Maintenance Configurator" /DISABLE
     
-The only way to disable the task is to use psexe to execute a remote call to itself to disable the task as SYSTEM (stupid, I know)
+The only way to disable the task is to use psexec to execute a remote call to itself to disable the task as SYSTEM (stupid, I know)
+
+Install [pstools](https://technet.microsoft.com/en-us/sysinternals/psexec.aspx?f=255&MSPPError=-2147217396) by downloading installer
+
+If you use chocolatey package manager, you can install pstools like so:
+
+    choco install pstools
+
 
     #WORKS
     psexec -accepteula -h -s schtasks /change /tn "\Microsoft\Windows\TaskScheduler\Maintenance Configurator" /DISABLE
@@ -78,10 +85,15 @@ windows_task '\Microsoft\Windows\TaskScheduler\Regular Maintenance' do
   action [:end, :disable]
 end
 
+# Assumes chocolatey cookbook is present
+chocolatey 'pstools' do
+  action :install
+end
+
 windows_task 'Maintenance Configurator' do
   user      "SYSTEM"
   command   "psexec -accepteula -s schtasks /change /tn '\\Microsoft\\Windows\\TaskScheduler\\Maintenance Configurator' /DISABLE"
-  action [:create,:run] # http://git.io/vs1Hm
+  action [:create,:run,:delete] # http://git.io/vs1Hm
   run_level :highest
   force true
 end
