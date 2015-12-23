@@ -6,16 +6,27 @@ categories: chef windows task
 
 ---
 
-Windows tries to be helpful, it really tries. Windows 2012 R2 has scheduled tasks that run in the background the perform regular maintenance. This task is *supposed* to run when the cpu is idle, however we find that our IIS web servers were having terrible performance problems, as soon as we disabled the maintenance, performance was restored. 
+Windows tries to be helpful, it really tries. Windows 2012 R2 has scheduled tasks that run in the background the perform regular maintenance.   
+
+![](http://i.stack.imgur.com/3Bswq.png)
+
+This task is *supposed* to run when the cpu is idle, however we find that our IIS web servers were having terrible performance problems, as soon as we disabled the maintenance, performance was restored. 
 
 
-## Why you probably don't want to do this: 
+## Why you probably don't want to disable maintenance: 
  
- Windows scheduled tasks are important because they install windows updates and trigger antivirus scans. We can afford to do this because we have moved away from ["servers as pets" to "servers as cattle"](http://www.slideshare.net/randybias/pets-vs-cattle-the-elastic-cloud-story). We no longer let windows install windows updates. Instead we use [packer](https://www.packer.io/) to generate new fully patched windows golden images on a weekly basis. Instead of installing updates, we destroy the vm, and spin up a new fully patched one in its place. 
+ Windows scheduled tasks are important because they install windows updates and trigger antivirus scans. At my company, we can afford to do this because we have moved away from ["servers as pets" to "servers as cattle"](http://www.slideshare.net/randybias/pets-vs-cattle-the-elastic-cloud-story).  
+We no longer let windows install windows updates. Instead we use [packer](https://www.packer.io/) to generate new fully patched windows golden images on a weekly basis. Instead of installing updates, we destroy the vm, and spin up a new fully patched one in its place. 
  
 ## Lets do it anyway
 
-With the disclaimer out of the way, here is how you disable a scheduled task in most cases. 
+With the disclaimer out of the way, here is how you disable a scheduled task with powershell.
+
+```bash
+schtasks /change /tn '\Microsoft\Windows\TaskScheduler\Regular Maintenance' /DISABLE
+```
+
+And the same way to disable a task with CHEF 
 
 ```ruby
 windows_task '\Microsoft\Windows\TaskScheduler\Regular Maintenance' do
@@ -25,7 +36,9 @@ end
 
 If you try and disable all 3 of the scheduled tasks, you will notice a problem when disabling "Maintenance Configurator"
 
-> The user account you are operating under does not have permission to disable this task. 
+> The user account you are operating under does not have permission to disable this task.   
+
+![](https://www.dropbox.com/s/zed3tj3zye3b3s7/Screenshot%202015-12-23%2011.17.14.png?dl=1)
 
 "Maintenance Configurator" is a special task that acts as a watchdog. If you disable the other two tasks, it will reenable them the next time it runs. It can not be disabled through regular means. 
 
