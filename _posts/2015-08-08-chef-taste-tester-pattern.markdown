@@ -6,6 +6,10 @@ categories: chef design-pattern
 
 ---
 
+**Update** This blog article was written before chef 12.6 which now includes a `:before` notification timer. Take a look at [how it works here:](https://docs.chef.io/resource_common.html)
+
+---
+
 Chef is awesome. The one feature that chef 12 is missing is the ability to do a conditional notify *before* another resource. I don't blame chef since no other configuration management tool I've tried supports this either. Normally this should be provided by the package.
 
 Example scenario:
