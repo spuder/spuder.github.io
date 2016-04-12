@@ -5,22 +5,32 @@ date:   2015-12-23 10:49:00
 categories: chef windows task  
 
 ---
+Everybody knows that windows is very aggressive in encouraging you to install windows updates. Windows 2012 R2 takes this to a whole new level by running background maintenance tasks that are impossible to kill normally.
 
-Windows tries to be helpful, it really tries. Windows 2012 R2 has scheduled tasks that run in the background the perform regular maintenance.   
+Windows maintenance can suck up a lot of cpu performance. 
 
 ![](http://i.stack.imgur.com/3Bswq.png)
 
-This task is *supposed* to run when the cpu is idle, however we find that our IIS web servers were having terrible performance problems, as soon as we disabled the maintenance, performance was restored. 
+
+**tl;dr** See [this stack overflow question](http://superuser.com/a/743187/167769) for an explanation of how to kill maintenance tasks.  
+
+In theory the maintenance tasks run are *supposed* to run when the cpu is idle, however I've found that a subset of my web servers were having terrible performance problems. 
 
 
 ## Why you probably don't want to disable maintenance: 
  
- Windows scheduled tasks are important because they install windows updates and trigger antivirus scans. At my company, we can afford to do this because we have moved away from ["servers as pets" to "servers as cattle"](http://www.slideshare.net/randybias/pets-vs-cattle-the-elastic-cloud-story).  
-We no longer let windows install windows updates. Instead we use [packer](https://www.packer.io/) to generate new fully patched windows golden images on a weekly basis. Instead of installing updates, we destroy the vm, and spin up a new fully patched one in its place. 
+ Fist a disclaimer. The maintenance tasks does things like defragging (do people still do that?). They also trigger automatic windows updates. If you disable these tasks make sure you have some other mechanism to deploy windows updates on a schedule. 
+Two good approaches are: 
+
+- WSUS - Microsofts Windows Update Server
+- [packer](http://www.hurryupandwait.io/blog/creating-windows-base-images-for-virtualbox-and-hyper-v-using-packer-boxstarter-and-vagrant?rq=packer)
+
+At my job, we use a combination of both. WSUS for long lived 'pets' servers, and new golden images deployed with configuration management for the ['cattle' servers](http://www.slideshare.net/randybias/pets-vs-cattle-the-elastic-cloud-story). In fact, many web servers aren't patched at all. They are instead destroyed and recreated from packer updated golden images on a biweekly basis. 
+
  
 ## Lets do it anyway
 
-With the disclaimer out of the way, here is how you disable a scheduled task with powershell.
+With the disclaimer out of the way, here is how you disable a scheduled task with powershell, taken from the stack overflow question mentioned earlier. 
 
 ```bash
 schtasks /change /tn '\Microsoft\Windows\TaskScheduler\Regular Maintenance' /DISABLE
@@ -34,7 +44,7 @@ windows_task '\Microsoft\Windows\TaskScheduler\Regular Maintenance' do
 end
 ```
 
-If you try and disable all 3 of the scheduled tasks, you will notice a problem when disabling "Maintenance Configurator"
+Note! If you try and disable all 3 of the scheduled tasks, you will notice a problem when disabling "Maintenance Configurator"
 
 > The user account you are operating under does not have permission to disable this task.   
 
@@ -42,7 +52,7 @@ If you try and disable all 3 of the scheduled tasks, you will notice a problem w
 
 "Maintenance Configurator" is a special task that acts as a watchdog. If you disable the other two tasks, it will reenable them the next time it runs. It can not be disabled through regular means. 
 
-Not even a local administrator can disable the task. The reason is fully explained in this [stackoverflow question](http://superuser.com/questions/497500/disable-automatic-maintenance-in-windows-8)
+Not even a local administrator can disable the task. (Thanks Microsoft)
 
 You can't disable the task with schedtasks.exe either
 
@@ -56,7 +66,6 @@ Install [pstools](https://technet.microsoft.com/en-us/sysinternals/psexec.aspx?f
 If you use chocolatey package manager, you can install pstools like so:
 
     choco install pstools
-
 
     #WORKS
     psexec -accepteula -h -s schtasks /change /tn "\Microsoft\Windows\TaskScheduler\Maintenance Configurator" /DISABLE
@@ -77,7 +86,7 @@ You must use the `windows_task` resource in the [windows cookbook](https://githu
 Whew, that was a lot of work. Microsoft really doesn't want you disabling this. 
 
 
-tl;dr add this to your cookbook
+The final cookbook would look like this:
 
 ```ruby
 # Stops 'Regular Maintenance' scheduled task
