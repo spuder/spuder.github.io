@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Disable scheduled tasks on windows with CHEF"
-date:   2015-12-23 10:49:00
-categories: chef windows task  
+title:  "why is gitlab-ci running slowly?"
+date:   2016-04-15 22:25:00
+categories: git gitlab 
 
 ---
 I use gitlab and [gitlab-ci](https://about.gitlab.com/gitlab-ci/) and love it. It is the best self hosted CI / Version control system out there in my oppinion. 
