@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "why is gitlab-ci running slowly? A troubleshooting tale"
+title:  "why is gitlab-ci running slowly?"
 date:   2016-04-15 22:25:00
 categories: git gitlab 
 
@@ -8,6 +8,10 @@ categories: git gitlab
 I use gitlab and [gitlab-ci](https://about.gitlab.com/gitlab-ci/) and love it. It is the best self hosted CI / Version control system out there in my opinion. 
 
 I noticed a strange behavior where running `knife upload` from my workstation would return within seconds, where as the same command as a gitlab-ci job would take over 2 minutes. 
+
+![](http://cl.ly/2l031v220e0m/Screenshot%202016-04-15%2023.31.31.png)
+
+Grr, 6 minutes for a build? Thats way too long. 
 
 If you have seen the same problem, jump to the bottom for the tl;dr version. 
 
@@ -65,6 +69,12 @@ PATH=/home/gitlab-runner/.rvm/gems/ruby-2.2.2/bin:/home/gitlab-runner/.rvm/gems/
 ```
 
 No wonder. The gitlab-runner has a super weird path to a non existent RVM installation. I'm guessing that there is a 1 minute timeout looking at the first 2 weird paths, then when it gets to /usr/local it returns immediately. 
+
+Success, I decided to fix the problem with the work around of adding /usr/bin/ to the knife command, instead of fixing ruby on the vm, since it will be replaced with docker containers and [gitlab multi runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner) soon. 
+
+
+![](http://cl.ly/0A0L0s1S3V1n/Screenshot%202016-04-15%2023.31.35.png)
+Success. 25 seconds for a build is more like it
 
 tl;dr make sure you use the full path to knife in your gitlab-ci (/usr/bin/knife)
 
