@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "why is gitlab-ci running slowly?"
+title:  "why is gitlab-ci running slowly? A troubleshooting tale"
 date:   2016-04-15 22:25:00
 categories: git gitlab 
 
 ---
-I use gitlab and [gitlab-ci](https://about.gitlab.com/gitlab-ci/) and love it. It is the best self hosted CI / Version control system out there in my oppinion. 
+I use gitlab and [gitlab-ci](https://about.gitlab.com/gitlab-ci/) and love it. It is the best self hosted CI / Version control system out there in my opinion. 
 
 I noticed a strange behavior where running `knife upload` from my workstation would return within seconds, where as the same command as a gitlab-ci job would take over 2 minutes. 
 
