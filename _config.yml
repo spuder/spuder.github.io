@@ -1,54 +1,41 @@
-# Site wide configuration
+# Site settings
+title: Spencer Owen
+description: The art of progress is to preserve order amid change and preserve change amid order - Alfred North Whitehead
+url: 'http://spuder.github.io'
+baseurl: '/'
+# google_analytics: 'UA-XXXXXX-X'
+# disqus_shortname: 'your-disqus-name'
 
-title: Be Teachable
-locale: en_US
-description: spuder.github.io
-logo: spencer-cartoonized.png
-search: true
-url: 
+author:
+  name: Spencer Owen
+  email: owenspencer@gmail.com
+  twitter_username: spencer450
+  # facebook_username: joshgerdes
+  github_username:  spuder
+  linkedin_username:  spuder
+  stackexchange: http://stackexchange.com/users/1785040/spuder
 
 
-# Jekyll configuration
+defaults:
+  -
+    scope:
+      path: ''
+      type: 'posts'
+    values:
+        layout: 'post'
 
-permalink:   /:categories/:title/
-#markdown:    kramdown
-markdown:    redcarpet
-highlighter: pygments
-sass:
-  sass_dir: _sass
-  style: compressed
-gems:
-  - jekyll-sitemap
+# Build settings
+destination: _site
+paginate: 10
+permalink: /:year/:title/
+markdown: kramdown
+highlighter: rouge
 
 kramdown:
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..2
-  use_coderay: false
+  # use Github Flavored Markdown
+  input: GFM
+  # do not replace newlines by <br>s
+  hard_wrap: false
 
-include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
-
-
-# Site owner
-owner:
-  name: Spencer Owen
-  avatar: rocky.jpeg
-  email: owenspencer@gmail.com
-  disqus-shortname:
-  twitter: spencer450
-  facebook: #username
-  github: spuder
-  stackexchange: http://stackexchange.com/users/1785040/spuder
-  linkedin: spuder
-  instagram: #username
-  flickr: #username
-  tumblr: #username
-  google:
-    plus: #username
-    analytics:
-    verify:
-    ad-client:
-    ad-slot: 
-  bing-verify:
+gems: ['jekyll-paginate']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']
