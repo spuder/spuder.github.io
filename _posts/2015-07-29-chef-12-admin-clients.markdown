@@ -5,8 +5,6 @@ date:   2015-07-29 08:14:00
 categories: chef
 ---
 
-# Chef Administrative Clients
-
 There are two types of objects in chef.
 
 - Users
@@ -27,11 +25,11 @@ We got to the point in chef, where we wanted to automate uploading cookbooks, ro
 
 Tedious right? 
 
-## Jenkins to the rescue
+## gitlab-ci to the rescue
 
 The natural solution is to make a automated task in your Integration tool ( jenkins, bamboo, gitlab-ci, travis )
 
-If you create a new client, and attept to have a job run these scrips for you, you'll likely get this error. 
+If you create a new client, and attempt to have a job run these scrips for you, you'll likely get this error. 
 
 ```bash
 CHEF_ENV=devops-lab knife user list
@@ -91,9 +89,3 @@ Now just add that client key to your node, and it will be able to upload data fo
 In another blog post, I'll cover the details of setting up a web hook to push cookbooks every time you commit to a master branch. 
 
 ![](https://www.dropbox.com/s/xyffcqzyv3ix91w/Screenshot%202015-07-30%2010.54.28.png?dl=1)
-
-
-Have a better way to do this? Find something wrong? Let me know. 
-
-twitter => @spencer450  
-irc => @spuder in #chef 

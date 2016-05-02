@@ -6,17 +6,15 @@ categories: chef slack
 
 ---
 
-# Event Handlers
+Occasionally in your automation infrastructure, you want an event to trigger a notification. For example, every time a chef run fails, send an alert. Or every time a webserver reboots, send an email. 
 
-Occasionally in your automation infrastructure, you want an event to trigger a notification. For example, everytime a chef run fails, send an alert. Or everytime a webserver reboots, send an email. 
-
-Chef handles this beautifuly with [event handlers](https://docs.chef.io/handlers.html). 
+Chef handles this beautifully with [event handlers](https://docs.chef.io/handlers.html). 
 
 Basically an event handler is a ruby script that chef calls on a defined trigger. 
 
 # Slack
 
-In my infrastructure, we are adopting slack for both communication and notificaitons. Slack is simple, beautiful and powerful. 
+In my infrastructure, we are adopting slack for both communication and notifications. Slack is simple, beautiful and powerful. 
 
 There is a community of chef handlers for [many external services](https://docs.chef.io/handlers.html#community-handlers) such as: 
 
@@ -35,5 +33,3 @@ Here is how simple it is to add slack notifications to a cookbook.
 And here is what it looks like in slack
 
 ![](https://www.dropbox.com/s/la1hsbbq22j3g0j/Screenshot%202015-10-16%2010.52.29.png?dl=1)
-
-

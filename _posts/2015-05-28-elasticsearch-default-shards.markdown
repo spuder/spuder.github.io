@@ -6,8 +6,6 @@ categories: elasticsearch, logstash
 
 ---
 
-# Default Shard count
-
 By default, elasticsearch will create 5 shards when receiving data from logstash. 
 While 5 shards, may be a good default, there are times that you may want to increase and decrease this value. 
 
@@ -24,7 +22,7 @@ At 10 shards per day (5 shards x 2 copies), thats 300 shards. Considering that e
 
 # Templates
 
-Elasticserach leaverages templates to define the settings for the indexes in shards. You can see the elasticsearch template for logstash with this http GET 
+Elasticserach leverages templates to define the settings for the indexes in shards. You can see the elasticsearch template for logstash with this http GET 
 
     _template/logstash?pretty
 
@@ -35,7 +33,7 @@ From linux / Mac terminal
 Notice how the template leverages a wildcard to apply to all logstash indexes. `logstash-*`. 
 
 
-My config will likely look differnt than yours since it leverages ['doc_values'](https://www.elastic.co/guide/en/elasticsearch/guide/current/doc-values.html#_enabling_doc_values) according to [this blog](http://svops.com/blog/elasticsearch-mappings-and-templates/)
+My config will likely look different than yours since it leverages ['doc_values'](https://www.elastic.co/guide/en/elasticsearch/guide/current/doc-values.html#_enabling_doc_values) according to [this blog](http://svops.com/blog/elasticsearch-mappings-and-templates/)
 
 ```
   "logstash" : {

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "CHEF update chef version on windows"
-date:   2015-11-3 9:25:00
+date:   2015-11-03 9:25:00
 categories: chef windows msi  
 
 ---

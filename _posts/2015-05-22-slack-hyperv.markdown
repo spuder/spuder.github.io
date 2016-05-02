@@ -6,8 +6,6 @@ categories: slack hyperv
 
 ---
 
-# HyperV
-
 I frequently start VM's on a hyperV host using the following powershell
 
     $HVNAME="vm01"
@@ -25,11 +23,11 @@ I frequently start VM's on a hyperV host using the following powershell
     Start-VM -ComputerName $HVCOMPUTERNAME -VMName $HVNAME  
 
 
-I'm using the awesome slack instant messaging application. It has an awesome API that lets you send messags through REST.
+I'm using the awesome slack instant messaging application. It has an awesome API that lets you send messages through REST.
 
 Steps to integrate:
 
-1. Add a [custom incomming webook](https://api.slack.com/incoming-webhooks)  
+1. Add a [custom incoming webhook](https://api.slack.com/incoming-webhooks)  
 
 2. Execute the following REST command
 
@@ -52,4 +50,4 @@ Powershell
 
 Notice that I'm not sending the data to a channel, but instead am sending a direct message to myself. I found [this trick here:](https://groups.google.com/forum/#!topic/slack-api/091x-gs1iFI)
 
-Now whenever I start a VM, I get a notification when it is booted up. This could be futher extended to fetch the IP Address or any additional information that you want.
+Now whenever I start a VM, I get a notification when it is booted up. This could be further extended to fetch the IP Address or any additional information that you want.
