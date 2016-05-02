@@ -5,14 +5,14 @@ date:   2015-04-28 11:34:00
 categories: elasticsearch
 ---
 
-# Elasticsearch shortcuts
+A collection of shortcuts when working with elasticsearch:
 
 When you execute a command from the command line, use curl. 
 
     curl -XGET 'http://elasticsearch.example.com:9200/_all/_settings?pretty'
     
    
-However typing out `elasticsearch.example.com:9200` everytime gets tedious. Add the following to your `~/.bashrc` (or `~/.bash_profile` if on Mac)
+However typing out `elasticsearch.example.com:9200` every time gets tedious. Add the following to your `~/.bashrc` (or `~/.bash_profile` if on Mac)
 
 
 ```bash
