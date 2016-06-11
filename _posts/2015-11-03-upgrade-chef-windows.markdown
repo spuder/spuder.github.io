@@ -10,11 +10,11 @@ categories: chef windows msi
 
 [Additional documentation](https://docs.chef.io/install_omnibus.html)
 
-Pipe to bash
+Pipe to bash (linux chef upgrade)
 
     curl -L https://omnitruck.chef.io/install.sh | sudo bash
 
-Pipe to powershell / iex
+Pipe to powershell / iex (Windows chef upgrade)
 
     . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install
 
