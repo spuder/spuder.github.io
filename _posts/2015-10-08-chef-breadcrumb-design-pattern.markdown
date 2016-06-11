@@ -6,6 +6,7 @@ categories: chef design-pattern
 
 ---
 
+
 Sometimes when you are automating your infrastructure, you run into a situation where you need to manage a file once, and then ignore it later so that another program can modify it. (Looking at you redis).
 
 Chef has a `create_if_missing` resource type which can accomplish this nicely.
@@ -19,7 +20,7 @@ end
 
 However what if you later have a need to modify that file? Your only option would be to destroy and recreate the VM, or ssh/rdp in and delete foo.sh.
 
-Here is an alternative that I perpose. Use a breadcrumb.
+Here is an alternative idea; Use a breadcrumb.
 
 
 

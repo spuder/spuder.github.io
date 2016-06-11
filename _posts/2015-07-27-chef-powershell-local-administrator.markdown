@@ -41,18 +41,18 @@ end
 Note that you need to ensure proper idempotency by using an `only_if` statement. In the demote resource, I'm using a `powershell_script` as a [guard interpreter](https://docs.chef.io/resource_common.html#guard-interpreters), but running the actual command as batch.
 
 
-##Additional Windows Automation
+## Additional Windows Automation
 
 In windows, if you need to run a command as another user, you have a couple of options.
 
-Use `Invoke-Command`
+1. Use `Invoke-Command`
 
 The problem with Invoke-Command is that it is intended to be executed on a remote host. While you can pass in `.` or `<localhostname>` as a parameter, that only works if you user has remote access enabled.
 
 
 The most commonly suggested workaround from the community, is to run the script as a scheduled task.
 
-Lucklily, the windows cookbook has a scheduled task resource called `windows_task`
+Luckily, the windows cookbook has a scheduled task resource called `windows_task`
 
 
 ```ruby
@@ -80,3 +80,9 @@ end
 ```
 
 This code could likely be cleaned up a bit, but is pretty bulletproof in my tests.
+
+2. Use Microsoft Desired State Configuration
+
+Newer versions of chef support the microsoft Desired State Configuration API
+
+Take a look at the [dsc_resource](https://docs.chef.io/resource_dsc_resource.html) and [dsc_script](https://docs.chef.io/resource_dsc_script.html) chef resources

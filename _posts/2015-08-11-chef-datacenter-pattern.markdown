@@ -6,11 +6,11 @@ categories: chef design-pattern
 
 ---
 
-Every configuration management tool has the concept of config hierchy. Puppet has Hiera, ansible has groups
+Every configuration management tool has the concept of config hierarchy. Puppet has Hiera, ansible has groups
 
 I recently moved from a company that used puppet to a windows shop who was green fielding with chef. Chef is really growing on me, but there is one design pattern that it does not handle well. "Datacenters"
 
-With puppet, if you have multiple datacenters and each needs its own config, you simply create a hiera hierchy and put your variables in the appropriate level.
+With puppet, if you have multiple datacenters and each needs its own config, you simply create a hiera hierarchy and put your variables in the appropriate level.
 
 Chef has a different data model. As of chef 12, there are [15 different levels of precedence for attributes.](https://docs.chef.io/attributes.html) The main hierarchy looking like the following:  
 
@@ -73,7 +73,7 @@ This only works as long as you keep each attribute unique per level. For example
 
 We have `web servers` , `web upload servers` and custom `mail servers` that are deployed from a monolithic build. The .tgz file created by our build pipeline contains the code for all 3. A `web server`, `upload server` and a `mail server` only differ by the services that are running. Web servers have role specific settings, upload servers have role specific settings _and_ datacenter specific settings whereas mail servers have just datacenter specific settings.
 
-Eventually we will move away from the monolithic builds, and rearchitect our software to not require datacenter specific androles settings, but for now this is what we have.
+Eventually we will move away from the monolithic builds, and re-architect our software to not require datacenter specific and roles settings, but for now this is what we have.
 
 The roles and environments  
 
@@ -206,14 +206,14 @@ Upload servers in every datacenter need their own specific settings, put those s
 
 While designing our roles, we [brainstormed every possible pattern in a github gist:](https://gist.github.com/spuder/00aa024e61392d16f4cc). The final design is a hybrid that uses pattern `B` as much as possible, and pattern `A` for the datacenter specific roles.
 
-This pattern works very well for us, understandibly it won't work perfectly for everyone. Chef is working on the policy file which will be interesting how it will replace some of our design once it is finialized.
+This pattern works very well for us, understandably it won't work perfectly for everyone. Chef is working on the policy file which will be interesting how it will replace some of our design once it is finalized.
 
 
 ## Questions
 
 ### - Roles don't have versions, won't a change to a role affect all environments at once?
 
-That is exactly why chef is creating the policy file. In our infrastructure, runlists don't change very often. And even if they do, they are in version control so it can be reverted back. We put as many settings as possible at the lowest hiarchy level (environment). Every other setting next goes to the datacenter specific role. This minimizes the number of servers that are affected by a single change.
+That is exactly why chef is creating the policy file. In our infrastructure, runlists don't change very often. And even if they do, they are in version control so it can be reverted back. We put as many settings as possible at the lowest hierarchy level (environment). Every other setting next goes to the datacenter specific role. This minimizes the number of servers that are affected by a single change.
 
 ---
 ### - What happens if you have the same setting in 2 roles?

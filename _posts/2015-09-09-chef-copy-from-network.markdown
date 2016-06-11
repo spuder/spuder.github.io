@@ -6,8 +6,8 @@ categories: chef windows
 
 ---
 
-#Update
-I discovered a bug in the `mount` resource which [has been reported here:](https://github.com/chef/chef/issues/3904)
+
+I discovered a bug in the CHEF `mount` resource which [has been reported here:](https://github.com/chef/chef/issues/3904)
 
 Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead:
 
@@ -40,7 +40,7 @@ Until that bug is fixed, mount can wreak havoc on your VM. Use this code instead
 
 One of the beauties of chef is the ease of deploying software from a package or git repo.
 
-If you are in a windows world, or have a samba network share that requires authentication, you might notice something wierd.
+If you are in a windows world, or have a samba network share that requires authentication, you might notice something weird.
 
 Given the following example:
 
@@ -111,6 +111,23 @@ Additional Information: [mount](https://docs.chef.io/resource_mount.html)
 
 Thanks to stevenmurawski in the IRC channel for the suggestion
 
+# Alternatives
+
+3 core principles in automating:
+
+- repeatability
+- portability
+- predictability
+
+If you pulling files from network shares, then your code likely isn't very portable. Also network shares are hard to make idempotent since they are statefull. Its better to put your files in an s3 compatible object store, and use REST to fetch files in a stateless fashion. A great way to quickly get an object store up and running is with an artifact repository
+
+On premise artifact repositories
+
+- [Sonatype Nexus](http://www.sonatype.com/nexus-repository-trial-download?ads_cmpid=595054006&ads_adid=28246754566&ads_matchtype=b&ads_network=g&ads_creative=105390970846&utm_term=%2Bartifactory%20%2Brepository&ads_targetid=kwd-174433708846&utm_campaign=&utm_source=adwords&utm_medium=ppc&ttv=2&gclid=COGw2tuGoc0CFZSEfgodziYO_g)
+- [Artifactory](https://www.jfrog.com/artifactory/)
+- [Apache Archiva](http://archiva.apache.org/index.cgi)
+
+Aws & Azure also have their own s3 object stores
 
 ## Troubleshooting
 
