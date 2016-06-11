@@ -6,23 +6,22 @@ categories: elasticsearch, logstash
 
 ---
 
-By default, elasticsearch will create 5 shards when receiving data from logstash. 
-While 5 shards, may be a good default, there are times that you may want to increase and decrease this value. 
+By default, elasticsearch will create 5 shards when receiving data from logstash.
+While 5 shards, may be a good default, there are times that you may want to increase and decrease this value.
 
-Suppose you are splitting up your data into a lot of indexes. And you are keeping data for 30 days. 
+Suppose you are splitting up your data into a lot of indexes. And you are keeping data for 30 days.
 
 - web-servers  
 - database-servers  
 - mail-servers  
 
-At 10 shards per day (5 shards x 2 copies), thats 300 shards. Considering that each shard is its own lucene index, this has the potential to be a lot of overhead. 
+At 10 shards per day (5 shards x 2 copies), thats 300 shards. Considering that each shard is its own lucene index, this has the potential to be a lot of overhead.
 
-![](http://cl.ly/image/3L1G1L3u1g1W/pCwA6HJQrR4gt0I0gbcGMLXI7Ap2w3HUlX71RHTgwWU.png
-)
+![](http://cl.ly/image/3L1G1L3u1g1W/pCwA6HJQrR4gt0I0gbcGMLXI7Ap2w3HUlX71RHTgwWU.png)
 
 # Templates
 
-Elasticserach leverages templates to define the settings for the indexes in shards. You can see the elasticsearch template for logstash with this http GET 
+Elasticserach leverages templates to define the settings for the indexes in shards. You can see the elasticsearch template for logstash with this http GET
 
     _template/logstash?pretty
 
@@ -30,12 +29,12 @@ From linux / Mac terminal
 
     curl elasticsearch.example.com:9200/_template/logstash?pretty
 
-Notice how the template leverages a wildcard to apply to all logstash indexes. `logstash-*`. 
-
-
 My config will likely look different than yours since it leverages ['doc_values'](https://www.elastic.co/guide/en/elasticsearch/guide/current/doc-values.html#_enabling_doc_values) according to [this blog](http://svops.com/blog/elasticsearch-mappings-and-templates/)
 
-```
+Observe below how the template leverages a wildcard to apply to all logstash indexes. `logstash-*`
+
+```json
+{
   "logstash" : {
     "order" : 0,
     "template" : "logstash-*",
@@ -137,7 +136,7 @@ My config will likely look different than yours since it leverages ['doc_values'
 
 # Modify default shard count
 
-To change the default shard count, we will need to modify the settings field in the template. 
+To change the default shard count, we will need to modify the settings field in the template.
 
 ```
 "settings" : {
@@ -146,7 +145,7 @@ To change the default shard count, we will need to modify the settings field in 
     ...
 ```
 
-Before you proceede, understand that this **only applies to new indexes**. You can't change the mapping of an already indexed indicie without reimporting your data. 
+Before you proceed, understand that this **only applies to new indexes**. You can't change the mapping of an already indexed indicie without reimporting your data.
 
 Save the template to your workstation
 
@@ -155,18 +154,24 @@ Save the template to your workstation
 
 Backup the file, then edit the 'settings' section of your file to reflect the number of shards that you want. I'm going to change mine from the default of 5 down to 2
 
-You will then need to remove the following fields 
+# Remove undeeded fields from template
 
-```
+The most important, and least clearly documented step of uploading a template, is removing the following lines
+
+
+```json
   "logstash" : {
     "order" : 0,
    ...
    }
 ```
 
+
+# Final result
+
 Here is a full config that has the 'logstash', and 'order' fields removed
 
-```
+```json
 {
     "template" : "logstash-*",
     "settings" : {
@@ -270,7 +275,6 @@ Here is a full config that has the 'logstash', and 'order' fields removed
 
 
 
-
 Verify that you have valid json by using [a tool like this one](http://jsonlint.com/)
 
 Double check your config, then upload to any elasticsearch node. You can specify a file to upload by prefacing the filename with `@`. In this case, I named my file 'foobar.json'
@@ -283,9 +287,9 @@ If everything uploaded correctly, you can check with the same command you ran ea
 
     curl elasticsearch.example.com:9200/_template/logstash?pretty
 
-Now tomorrows index should only have 2 shards
+Tomorrows index should only have 2 shards
 
-If there is a problem reading the file, or uploading, elasticsearch will warn you and ignore the changes. 
+If there is a problem reading the file, or uploading, elasticsearch will warn you and ignore the changes.
 
 ```
 Warning: Couldn't read data from file "foobar", this makes an empty
