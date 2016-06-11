@@ -154,7 +154,7 @@ Save the template to your workstation
 
 Backup the file, then edit the 'settings' section of your file to reflect the number of shards that you want. I'm going to change mine from the default of 5 down to 2
 
-# Remove undeeded fields from template
+# Remove unneeded fields from template
 
 The most important, and least clearly documented step of uploading a template, is removing the following lines
 
@@ -162,7 +162,8 @@ The most important, and least clearly documented step of uploading a template, i
 ```json
   "logstash" : {
     "order" : 0,
-   ...
+
+
    }
 ```
 
