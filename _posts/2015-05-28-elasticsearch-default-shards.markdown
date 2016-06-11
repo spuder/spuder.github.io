@@ -167,6 +167,32 @@ The most important, and least clearly documented step of uploading a template, i
    }
 ```
 
+### Before
+
+```json
+{
+  "logstash" : {
+    "order" : 0,
+    "template" : "logstash-*",
+    "settings" : { },
+    "mappings" : {
+      "_default_" : {
+        "dynamic_templates" : [ {
+
+```
+
+### After
+
+```json
+{
+    "template" : "logstash-*",
+    "settings" : {
+      "number_of_shards": 2
+    },
+    "mappings" : {
+      "_default_" : {
+        "dynamic_templates" : [ {
+```
 
 # Final result
 
