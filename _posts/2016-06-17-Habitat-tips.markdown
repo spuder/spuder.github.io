@@ -5,7 +5,7 @@ date:   2016-06-17 3:16:00
 categories: habitat
 ---
 
-![](https://www.habitat.sh/)
+![](https://raw.githubusercontent.com/habitat-sh/habitat/master/www/source/images/habitat-mark.png)
 
 In the first 48 hours with habitat, here are a few things that I've learned. 
 
