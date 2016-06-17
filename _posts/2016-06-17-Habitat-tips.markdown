@@ -1,9 +1,28 @@
 ---
 layout: post
 title:  "Habitat Tips & Tricks"
-date:   2015-06-17 3:16:00
+date:   2016-06-17 3:16:00
 categories: habitat
 ---
+
+![](https://www.habitat.sh/)
+
+In the first 48 hours with habitat, here are a few things that I've learned. 
+
+# Debugging hab builds
+
+You can see additional output if you prefix any hab command with `DEBUG=1` 
+
+    [0][default:/src:0]# DEBUG=1 build
+
+# Extract a habitat file
+
+.hart files are basically just a tarball with metadata. You can explode the contents using `tail`, `xzcat` and `tar`
+
+    tail -n +6 /tmp/foo-bar.hart | xzcat | tar xf - -C .
+
+The files will be extracted to the current directory.
+
 
 # Use variables from other habitat packages
 
@@ -114,17 +133,3 @@ do_install() {
 }
 
 ```
-
-# Debugging hab builds
-
-You can see additional output if you prefix any hab command with `DEBUG=1` 
-
-    [0][default:/src:0]# DEBUG=1 build
-
-# Extract a habitat file
-
-.hart files are basically just a tarball with metadata. You can explode the contents using `tail`, `xzcat` and `tar`
-
-    tail -n +6 /tmp/foo-bar.hart | xzcat | tar xf - -C .
-
-The files will be extracted to the current directory.
