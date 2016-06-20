@@ -9,13 +9,13 @@ categories: habitat
 
 In the first 48 hours with habitat, here are a few things that I've learned. 
 
-# Debugging hab builds
+# 1. Debugging hab builds
 
 You can see additional output if you prefix any hab command with `DEBUG=1` 
 
     [0][default:/src:0]# DEBUG=1 build
 
-# Extract a habitat file
+# 2. Extract a habitat file
 
 .hart files are basically just a tarball with metadata. You can explode the contents using `tail`, `xzcat` and `tar`
 
@@ -24,7 +24,7 @@ You can see additional output if you prefix any hab command with `DEBUG=1`
 The files will be extracted to the current directory.
 
 
-# Use variables from other habitat packages
+# 3. Use variables from other habitat packages
 
 Suppose you have a jar. How do you set JAVA_HOME when JAVA_HOME is defined in core/server-jre ? 
 
@@ -34,7 +34,7 @@ Put the following inside hooks/run or hooks/init
 
 [Example hook file](https://github.com/habitat-sh/habitat/blob/master/plans/artifactory-pro/hooks/run#L5)
 
-# Installing a habitat package you just built from studio
+# 4.  Installing a habitat package you just built from studio
 
 Once you have built a package, you presumably want to test it. 
 At the end of the build notice the line `Artifact: /src/results/foo-bar-1.0.0....hart`
@@ -57,6 +57,10 @@ At the end of the build notice the line `Artifact: /src/results/foo-bar-1.0.0...
    ant: Build time: 0m22s
 ```
 
+If you built your package from outside of studio, there will be a file that contains this same information
+
+    results/last_build.env
+
 To Install the package that was just created
 
     [0][default:/src:0]# hab pkg install foo/bar
@@ -67,7 +71,7 @@ If your package has a runtime, (or service to run) you can start it like so
 
 If your package doesn't have a runtime, but does contain an executable, see the next tip. 
 
-# Test run executable from inside habitat studio
+# 5. Test run executable from inside habitat studio
 
 You can test that your binary works using `hab pkg exec foo/bar bazz`
 
@@ -91,12 +95,13 @@ This program is free software; your freedom to use, change
 and distribute this program is protected by the GPL.
 ```
 
-# Making package from local directory
+# 6. Making package from local directory
 
 All the current examples from habitat show examples where the source is downloadable from a url. 
 But what if you want to put your plan.sh file inside your project? 
 
-
+Set `pkg_source` and `pkg_shasum` to any made up value (can't be empty)
+Override the `do_download`, `do_verify` and `do_unpack` to `return 0`
 ```
 pkg_origin=foo
 pkg_name=bar
