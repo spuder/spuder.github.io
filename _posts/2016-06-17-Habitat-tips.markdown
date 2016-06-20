@@ -13,7 +13,7 @@ In the first 48 hours with habitat, here are a few things that I've learned.
 
 You can see additional output if you prefix any hab command with `DEBUG=1` 
 
-    [0][default:/src:0]# DEBUG=1 build
+    $ DEBUG=1 hab pkg build . -k yourdepot
 
 # 2. Extract a habitat file
 
@@ -41,7 +41,7 @@ At the end of the build notice the line `Artifact: /src/results/foo-bar-1.0.0...
 
 ```
 [0][default:/src:0]# build
-.. 
+....
 '/hab/cache/artifacts/spuder-ant-1.9.7-20160617211801-x86_64-linux.hart' -> '/src/results/spuder-ant-1.9.7-20160617211801-x86_64-linux.hart'
    ant: hab-plan-build cleanup
    ant:
