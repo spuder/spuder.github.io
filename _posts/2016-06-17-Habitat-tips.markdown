@@ -13,7 +13,9 @@ In the first 48 hours with habitat, here are a few things that I've learned.
 
 You can see additional output if you prefix any hab command with `DEBUG=1` 
 
-    $ DEBUG=1 hab pkg build . -k yourdepot
+`[0][default:/src:0]# DEBUG=1 build`
+
+`$ DEBUG=1 hab pkg build . -k yourdepot`
 
 # 2. Extract a habitat file
 
@@ -26,11 +28,11 @@ The files will be extracted to the current directory.
 
 # 3. Use variables from other habitat packages
 
-Suppose you have a jar. How do you set JAVA_HOME when JAVA_HOME is defined in core/server-jre ? 
+Suppose you have a jar. How do you set JAVA_HOME when JAVA_HOME is defined in core/jdk8 ? 
 
 Put the following inside hooks/run or hooks/init
 
-    export JAVA_HOME=$(hab pkg path core/server-jre) 
+    export JAVA_HOME=$(hab pkg path core/jdk8) 
 
 [Example hook file](https://github.com/habitat-sh/habitat/blob/master/plans/artifactory-pro/hooks/run#L5)
 
@@ -138,3 +140,14 @@ do_install() {
 }
 
 ```
+
+# 7. Understand `pkg_dirname`
+
+When you download and extract a .tar.gz or .zip file containing your source code, it may or may not unzip to a sane directory name. 
+
+You can tell habitat where to look for the source code by modifying `pkg_dirname`
+
+E.g. If source code foobar.tgz extracts to foobar-dumbfolder123
+
+    pkg_dirname=${pkg_name}-dumbfolder${pkg_version}
+
