@@ -224,5 +224,6 @@ The last one will win. Thats why the override roles have all settings in the `ov
 A change to the entire infrastructure requires making the change to every environment. We have 4 environments (dev, test, stage, prod). So at most 4 files need to be modified.
 
 ##Additional Information  
+
 [https://gist.github.com/spuder/00aa024e61392d16f4cc](https://gist.github.com/spuder/00aa024e61392d16f4cc)  
 [http://serverfault.com/questions/700860/can-chef-have-different-databags-in-different-datacenters](http://serverfault.com/questions/700860/can-chef-have-different-databags-in-different-datacenters)
