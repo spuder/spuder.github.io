@@ -215,12 +215,10 @@ This pattern works very well for us, understandably it won't work perfectly for 
 
 That is exactly why chef is creating the policy file. In our infrastructure, runlists don't change very often. And even if they do, they are in version control so it can be reverted back. We put as many settings as possible at the lowest hierarchy level (environment). Every other setting next goes to the datacenter specific role. This minimizes the number of servers that are affected by a single change.
 
----
 ### - What happens if you have the same setting in 2 roles?
 
 The last one will win. Thats why the override roles have all settings in the `override_attributes` section.
 
----
 ### - Don't you have to make a lot of changes if you want to change a setting everywhere?
 
 A change to the entire infrastructure requires making the change to every environment. We have 4 environments (dev, test, stage, prod). So at most 4 files need to be modified.
