@@ -16,12 +16,12 @@ So how do you do this on windows in an automated way?
 [Azure recommends](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-windows-classic-attach-disk/) RDP, the azure-cli or plain old powershell. 
 OpenStack recommends CloudBase init  
 
-# CloudBase Init
+## CloudBase Init
 
 [CloudBase init](https://cloudbase.it/cloudbase-init/) is the windows version of cloud init from the fine folks at cloudbase solutions.
 
 
-# Nutanix
+## Nutanix
 
 Unfortunately nutanix doesn't have a metadata service yet, so cloudbase init wont work on windows machines. 
 
@@ -31,7 +31,7 @@ The following powershell will find all raw volumes, and format them as GPT with 
 {% gist 50b722400097efb3854de7408065a8af %}
 
 
-# Deploying
+## Deploying
 
 To actually deploy this script, you will need to `Invoke-Command` or embed it in your configuration managment tool (Ansible,Chef,Puppet,Salt)
 
