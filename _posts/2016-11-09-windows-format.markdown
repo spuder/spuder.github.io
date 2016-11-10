@@ -28,7 +28,7 @@ Unfortunately nutanix doesn't have a metadata service yet, so cloudbase init won
 The following powershell will find all raw volumes, and format them as GPT with the name 'datadisk'
 
 
-{% gist 50b722400097efb3854de7408065a8af $}
+{% gist 50b722400097efb3854de7408065a8af %}
 
 
 # Deploying
