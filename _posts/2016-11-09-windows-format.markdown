@@ -12,13 +12,13 @@ On linux there are two common ways to format a secondary volume
 
 So how do you do this on windows in an automated way? 
 
-[AWS recommends](http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-using-volumes.html) using plain old RDP and clicking through Disk Management or using their EC2Configuration Service 
+[AWS recommends](http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-using-volumes.html) using plain old RDP and clicking through Disk Management or using their EC2Configuration Service   
 [Azure recommends](https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-windows-classic-attach-disk/) RDP, the azure-cli or plain old powershell. 
-OpenStack recommends CloudBase init
+OpenStack recommends CloudBase init  
 
 # CloudBase Init
 
-[CloudBase init](https://cloudbase.it/cloudbase-init/ is the windows version of cloud init from the fine folks at cloudbase solutions.
+[CloudBase init](https://cloudbase.it/cloudbase-init/) is the windows version of cloud init from the fine folks at cloudbase solutions.
 
 
 # Nutanix
