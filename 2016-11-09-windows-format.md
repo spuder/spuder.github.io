@@ -1,6 +1,7 @@
 ---
 layout: post
 title: windows automated volume format
+date:   2016-11-10 12:43:00
 ---
 
 On linux there are two common ways to format a secondary volume
