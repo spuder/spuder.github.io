@@ -33,12 +33,12 @@ The following powershell will find all raw volumes, and format them as GPT with 
 
 ## Deploying
 
-To actually deploy this script, you will need to `Invoke-Command` or embed it in your configuration managment tool (Ansible,Chef,Puppet,Salt)
+To actually deploy this script, you will need to `Invoke-Command` or embed it in your configuration management tool (Ansible,Chef,Puppet,Salt)
 
 Here is an example for Chef
 
 ```ruby
-owershell_script 'Format Volumes' do
+powershell_script 'Format Volumes' do
   guard_interpreter :powershell_script
   code <<-EOH
   Write-Host "Initializing and formatting raw disks"
