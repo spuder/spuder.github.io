@@ -56,7 +56,7 @@ Now we can define our vms as objects and put them in version control. Hooray!
       "VLANID": "130"
     }],
     "DNS": {
-      "Server": "lab-dc01",
+      "Server": "lab-domain01",
       "Zone": "example.com"
     }
   }
