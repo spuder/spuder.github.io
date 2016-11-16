@@ -7,9 +7,9 @@ categories: powershell f5 automation
 
 At my job we are on the 'infrastructure as code' bandwagon. The most popular tool for coding your infrastructure is terraform. 
 
-Unfortunatly we have 3 core pieces of software that don't yet work with terraform, and we don't have the time to learn golang to write them. 
+Unfortunately we have 3 core pieces of software that don't yet work with terraform, and we don't have the time to learn golang to write them. 
 
-- F5 loadbalancers
+- F5 load balancers
 - Nutanix Hypervisors
 - Octopus Deploy
 
