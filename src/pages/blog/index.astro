@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, postUrl, formatDate } from '../../lib/posts';
+
+const posts = await getPosts();
+const byYear = Map.groupBy(posts, (p) => p.data.date.getUTCFullYear());
+---
+
+<Base title="Writing" description="Posts by Spencer Owen on Chef, Puppet, Windows automation, and more.">
+  <section class="wrap page-head">
+    <h1>Writing</h1>
+    <p class="lede">Notes I wrote from 2014 to 2017, mostly about Chef, Puppet, and Windows automation. I've kept them online because people still link to them.</p>
+  </section>
+  <section class="wrap section">
+    {
+      [...byYear].map(([year, items]) => (
+        <>
+          <h2 class="section-title">{year}</h2>
+          <ul class="post-list">
+            {items.map((post) => (
+              <li>
+                <a href={postUrl(post)}>{post.data.title}</a>
+                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+              </li>
+            ))}
+          </ul>
+        </>
+      ))
+    }
+  </section>
+</Base>

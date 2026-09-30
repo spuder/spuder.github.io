@@ -1,0 +1,67 @@
+---
+import '../styles/global.css';
+import { SITE } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = SITE.description, image = '/projects/openspool.png' } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.name}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/images/favicons/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/feed.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a href="/" class="brand">
+          <img src="/images/profile.jpg" alt="" width="32" height="32" />
+          <span>{SITE.name}</span>
+        </a>
+        <nav aria-label="Main">
+          <a href="/projects/" aria-current={path.startsWith('/projects') ? 'page' : undefined}>Projects</a>
+          <a href="/blog/" aria-current={path.startsWith('/blog') ? 'page' : undefined}>Writing</a>
+          <a href="https://github.com/spuder">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <span>© {new Date().getFullYear()} {SITE.name} · {SITE.location}</span>
+        <span class="footer-links">
+          {SITE.social.map((s) => <a href={s.url}>{s.label}</a>)}
+          <a href="/feed.xml">RSS</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

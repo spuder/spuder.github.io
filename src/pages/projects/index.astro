@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { GROUPS } from '../../lib/site';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[])
+  .map((key) => ({ key, label: GROUPS[key], items: projects.filter((p) => p.data.group === key) }))
+  .filter((g) => g.items.length);
+---
+
+<Base title="Projects" description="Open-source hardware, firmware, and infrastructure projects by Spencer Owen.">
+  <section class="wrap page-head">
+    <h1>Projects</h1>
+    <p class="lede">Things I've built and released as open source. The full list is on <a href="https://github.com/spuder?tab=repositories">GitHub</a>.</p>
+  </section>
+  {
+    groups.map((g) => (
+      <section class="wrap section" aria-labelledby={`group-${g.key}`}>
+        <h2 id={`group-${g.key}`} class="section-title">
+          {g.label}
+        </h2>
+        <div class="grid grid--small">
+          {g.items.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</Base>

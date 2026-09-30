@@ -1,45 +1,43 @@
-# jekyll-uno
+# spuder.github.io
 
-Jekyll-Uno - a minimal, responsive theme for Jekyll based on the [Uno](https://github.com/daleanthony/Uno) theme for Ghost.
+Personal portfolio and blog for Spencer Owen, built with [Astro](https://astro.build) and deployed to GitHub Pages by GitHub Actions.
 
-> :warning:
-  This theme requires ruby and rubygems installed
+## Develop
 
-### Features
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # outputs to dist/
+```
 
-* Clean layout
-* Resposive layout
-* Pagination
-* Syntax highlighting
-* Social links
-* Tags listing page
-* Categories listing page
-* Google Analytics integration
-* Disqus integration
+## Add a project
 
+Create `src/content/projects/<slug>.md`:
+
+```yaml
 ---
-
-### Install and Test
-
-1. Download or clone repo `git clone git@github.com:joshgerdes/jekyll-uno.git`
-2. Enter the folder: `cd jekyll-uno/`
-3. If you don't have bundler installed: `gem install bundler`
-3. Install Ruby gems: `bundle install`
-4. Start Jekyll server: `jekyll serve`
-
-Access via: [http://localhost:4000/jekyll-uno](http://localhost:4000/jekyll-uno)
-
+title: My Project
+tagline: One or two sentences on what it is.
+repo: spuder/my-project
+group: hardware        # hardware | homelab | devops
+featured: false        # true = large card on the home page
+order: 50              # lower sorts first
+tags: [ESP32, C++]
+image: /projects/my-project.jpg   # put images in public/projects/
+stars: 0               # fallback if the GitHub API is unavailable
+links:
+  - { label: Docs, url: "https://example.com" }
 ---
+```
 
-### Demo and Download
+If the file has body text, it gets its own page at `/projects/<slug>/`. If it has no body, the card links straight to the GitHub repo. Star counts are fetched from the GitHub API at build time, and the site rebuilds weekly to keep them current.
 
-[Demo](http://joshgerdes.com/jekyll-uno/)
-[Download](https://github.com/joshgerdes/jekyll-uno/archive/master.zip)
+Strip photo metadata (GPS location, camera info) before adding images:
 
-![jekyll-uno - free Jekyll theme](/screenshot.png)
+```bash
+magick photo.jpg -auto-orient -strip -resize 1400x public/projects/photo.jpg
+```
 
----
+## Blog posts
 
-### Copyright and license
-
-It is under [the MIT license](/LICENSE).
+Posts live in `src/content/blog/YYYY-MM-DD-slug.md` and are served at `/YYYY/slug/`, the same URLs the old Jekyll site used.

@@ -1,7 +1,4 @@
-_site
-.sass-cache
-.jekyll-metadata
-*.sublime-project
-*.sublime-workspace
-Gemfile.lock
-Gemfile.lock.DS_Store
+node_modules/
+dist/
+.astro/
+.DS_Store

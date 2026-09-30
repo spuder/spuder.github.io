@@ -1,0 +1,39 @@
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+// Post ids keep the original Jekyll filename (case included) so URLs match
+// the old /:year/:title/ permalinks exactly.
+const blog = defineCollection({
+  loader: glob({
+    pattern: '*.md',
+    base: './src/content/blog',
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    categories: z.string().optional(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/projects' }),
+  schema: z.object({
+    title: z.string(),
+    tagline: z.string(),
+    repo: z.string(), // owner/name
+    group: z.enum(['hardware', 'homelab', 'devops']),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    order: z.number().default(100),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageFit: z.enum(['cover', 'contain']).default('cover'),
+    video: z.string().optional(),
+    links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+    // Fallback when the GitHub API is unavailable at build time.
+    stars: z.number().default(0),
+  }),
+});
+
+export const collections = { blog, projects };

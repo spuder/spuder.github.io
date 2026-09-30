@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { SITE, GROUPS } from '../lib/site';
+import { getPosts, postUrl, formatDate } from '../lib/posts';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured);
+const others = projects.filter((p) => !p.data.featured);
+const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[])
+  .map((key) => ({ key, label: GROUPS[key], items: others.filter((p) => p.data.group === key) }))
+  .filter((g) => g.items.length);
+const posts = (await getPosts()).slice(0, 5);
+---
+
+<Base>
+  <section class="hero wrap">
+    <p class="eyebrow">{SITE.location}</p>
+    <h1>I build open hardware for 3D printing, homelab gear, and the infrastructure behind it.</h1>
+    <p class="lede">
+      I'm Spencer Owen, an automation engineer. I started out in config management with Puppet and Chef. These
+      days I mostly build open-source hardware and firmware, like <a href="/projects/openspool/">OpenSpool</a>,
+      which adds RFID filament detection to 3D printers.
+    </p>
+    <p class="hero-links">
+      {SITE.social.map((s) => <a class="button" href={s.url}>{s.label}</a>)}
+    </p>
+  </section>
+
+  <section class="wrap section" aria-labelledby="featured">
+    <h2 id="featured" class="section-title">Featured projects</h2>
+    <div class="grid grid--featured">
+      {featured.map((p) => <ProjectCard project={p} size="large" />)}
+    </div>
+  </section>
+
+  {
+    groups.map((g) => (
+      <section class="wrap section" aria-labelledby={`group-${g.key}`}>
+        <h2 id={`group-${g.key}`} class="section-title">
+          {g.label}
+        </h2>
+        <div class="grid grid--small">
+          {g.items.map((p) => (
+            <ProjectCard project={p} />
+          ))}
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="wrap section" aria-labelledby="blog" id="blog">
+    <h2 class="section-title" id="writing">Writing</h2>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={postUrl(post)}>{post.data.title}</a>
+            <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+          </li>
+        ))
+      }
+    </ul>
+    <p><a href="/blog/">All posts →</a></p>
+  </section>
+</Base>

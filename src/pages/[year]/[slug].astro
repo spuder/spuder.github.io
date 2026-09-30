@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, postParams, formatDate } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: postParams(post), props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const year = post.data.date.getUTCFullYear();
+const tags = post.data.categories?.split(/[\s,]+/).filter(Boolean) ?? [];
+---
+
+<Base title={post.data.title}>
+  <article class="wrap post">
+    <p class="eyebrow"><a href="/blog/">Writing</a></p>
+    <h1>{post.data.title}</h1>
+    <div class="card-meta">
+      <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      {tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    <aside class="archive-note">
+      I wrote this in {year}. Tools and versions have probably changed since then.
+    </aside>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
